@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const userRoutes = require('./routes/user');
+const authRoutes = require('./routes/auth');
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use('/user', userRoutes);
+app.use(userRoutes);
+app.use(authRoutes);
 
 app.listen(8080); 

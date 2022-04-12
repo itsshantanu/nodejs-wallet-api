@@ -4,12 +4,16 @@ exports.getUserDetail = (req, res, next) => {
     });
 };
 
-exports.createUser = (req, res, next) => {
-    const name = req.body.name;
-    const address = req.body.address;
-    // Create post in db
-    res.status(201).json({
-      message: 'User created successfully!',
-      user: { id: new Date().toISOString(), name: name, address: address }
-    });
-  }; 
+
+
+exports.getTransaction = (req, res, next) => {
+    res.status(200).json({
+      transactionDetail: [{
+         trx_id:"12345234",
+         from: "shantanu",
+         to: "rishabh",
+         amount: "50",
+         date: "30/03/2022" 
+      }]
+    })
+};
