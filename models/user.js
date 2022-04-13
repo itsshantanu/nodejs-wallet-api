@@ -22,7 +22,13 @@ const userSchema = new Schema(
         balance: {
             type: Number,
             requires: true
-        }
+        },
+        transactions: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Transaction'
+            }
+        ]
     }, 
     {timestamps: true}
 );
