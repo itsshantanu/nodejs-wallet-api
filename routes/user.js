@@ -4,7 +4,7 @@ const userController = require('../controllers/user');
 
 const router = express.Router();
 
-router.get('/userDetail', userController.getUserDetail);
+router.get('/user/:userId', userController.getUser);
 
 router.get('/transactions', userController.getTransaction)
 
