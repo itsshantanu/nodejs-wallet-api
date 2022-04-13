@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
 const userRoutes = require('./routes/user');
 const authRoutes = require('./routes/auth');
@@ -18,4 +19,11 @@ app.use((req, res, next) => {
 app.use(userRoutes);
 app.use(authRoutes);
 
-app.listen(8080); 
+mongoose
+    .connect(
+        'mongodb+srv://admin-shantanu2:qwerty1234@cluster0.ifp46.mongodb.net/wallet?retryWrites=true&w=majority'
+    )
+    .then(result => {
+        app.listen(8080);
+    })
+    .catch(err => console.log(err));
