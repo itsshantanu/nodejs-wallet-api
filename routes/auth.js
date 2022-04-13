@@ -28,7 +28,19 @@ router.put('/signup', [
     body('name')
         .trim()
         .not()
-        .isEmpty()
+        .isEmpty(),
+    body('contact')
+        .trim()
+        .isNumeric()
+        .isLength({min: 10, max: 10})
+        .withMessage('Please enter a valid 10 digit number')
+        .custom((value, { req }) => {
+            return User.findOne({ contact: value }).then(userDoc => {
+                if (userDoc) {
+                    return Promise.reject('Contact already exists!');
+                }
+            });
+        })
 ], authController.signup);
 
 router.post('/login', authController.login);

@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const transactionSchema = new Schema(
     {
-        sendTo: {
+        sendToContact: {
             type: String,
             required: true
         },

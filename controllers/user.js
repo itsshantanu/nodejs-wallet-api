@@ -1,4 +1,11 @@
 const User = require('../models/user'); 
+const Transaction = require('../models/transaction');
+
+exports.sendMoney = (req, res, next) => {
+    const sendToContact = req.body.sendToContact;
+    const amount = req.body.amount;
+
+}
 
 
 exports.getUser = (req, res, next) => {
