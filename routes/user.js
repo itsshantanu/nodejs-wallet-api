@@ -7,5 +7,6 @@ const router = express.Router();
 
 router.put('/sendMoney/:userId', isAuth, userController.sendMoney);
 
+router.get('/transaction/:userId', isAuth, userController.getTransaction);
 
 module.exports = router; 

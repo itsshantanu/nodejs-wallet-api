@@ -2,6 +2,7 @@ const User = require('../models/user');
 const Transaction = require('../models/transaction');
 
 const { validationResult } = require('express-validator');
+const transaction = require('../models/transaction');
 
 
 exports.sendMoney = (req, res, next) => {
@@ -25,11 +26,11 @@ exports.sendMoney = (req, res, next) => {
             }
             User.findById(userId)
                 .then(user => {
-                    if (!user) {
-                        const error = new Error('Could not find user.');
+                    if (!user || sendTo == user.userName) {
+                        const error = new Error('Enter a valid user.');
                         error.statusCode = 404;
                         throw error;
-                    }
+                    } 
                     if (amount <= user.balance && user.balance > 0) {
                         const updatedBalance = user.balance - amount;
                         user.balance = updatedBalance;
@@ -71,34 +72,15 @@ exports.sendMoney = (req, res, next) => {
 }
 
 
-exports.getUser = (req, res, next) => {
-    const userId = req.params.userId;
-    User.findById(userId)
-        .then(user => {
-            if (!user) {
-                const error = new Error('Could not find user.');
-                error.statusCode = 404;
-                throw error;
-            }
-            res.status(200).json({ message: 'User fetched.', user: user });
-        })
-        .catch(err => {
-            if (!err.statusCode) {
-                err.statusCode = 500;
-            }
-            next(err);
-        });
-};
-
-
 exports.getTransaction = (req, res, next) => {
-    res.status(200).json({
-        transactionDetail: [{
-            trx_id: "12345234",
-            from: "shantanu",
-            to: "rishabh",
-            amount: "50",
-            date: "30/03/2022"
-        }]
+    const userId = req.params.userId;
+    Transaction.find({'userId': userId})
+        .then(transactions => {
+        res.status(200).json({
+            userTransactions: [{
+                transactions
+            }]
+        })
     })
+    
 };
