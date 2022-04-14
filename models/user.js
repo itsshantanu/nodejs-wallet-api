@@ -11,24 +11,14 @@ const userSchema = new Schema(
             type: String,
             required: true
         },
-        name: {
+        userName: {
             type: String,
-            required: true
-        },
-        contact: {
-            type: Number,
             required: true
         },
         balance: {
             type: Number,
             requires: true
-        },
-        transactions: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: 'Transaction'
-            }
-        ]
+        }
     }, 
     {timestamps: true}
 );

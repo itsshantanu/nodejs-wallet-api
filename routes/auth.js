@@ -6,10 +6,6 @@ const authController = require('../controllers/auth');
 
 const router = express.Router();
 
-// router.get('/login', authController.getLogin);
-
-// router.post('/login', authController.postLogin);
-
 router.put('/signup', [
     body('email')
         .isEmail()
@@ -25,22 +21,17 @@ router.put('/signup', [
     body('password')
         .trim()
         .isLength({ min: 5 }),
-    body('name')
+    body('userName')
         .trim()
         .not()
-        .isEmpty(),
-    body('contact')
-        .trim()
-        .isNumeric()
-        .isLength({min: 10, max: 10})
-        .withMessage('Please enter a valid 10 digit number')
+        .isEmpty()
         .custom((value, { req }) => {
-            return User.findOne({ contact: value }).then(userDoc => {
+            return User.findOne({ userName: value }).then(userDoc => {
                 if (userDoc) {
-                    return Promise.reject('Contact already exists!');
+                    return Promise.reject('User name already exists!');
                 }
             });
-        })
+        }),
 ], authController.signup);
 
 router.post('/login', authController.login);
