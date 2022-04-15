@@ -3,6 +3,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
+const Admin = require('../models/admin');
+const admin = require('../models/admin');
 
 
 exports.signup = (req, res, next) => {
@@ -76,3 +78,42 @@ exports.login = (req, res, next) => {
             next(err);
         });
 };
+
+exports.adminLogin = (req, res, next) => {
+    const email = req.body.email;
+    const password = req.body.password;
+    
+    Admin.findOne({email: email})
+        .then(admin => {
+            if (!admin) {
+                const error = new Error('An admin with this email could not be found.');
+                error.statusCode = 401;
+                throw error;
+            }
+            // return fetchedPassword = admin.password;
+            return admin
+        })
+        .then(admin => {
+            if (admin.password !== password) {
+                // console.log(admin.admi)
+                const error = new Error('Wrong Password');
+                error.statusCode = 401;
+                throw error;
+            }
+            const token = jwt.sign(
+                {
+                    email: admin.email,
+                    userId: admin._id.toString()
+                },
+                'walletsecret',
+                { expiresIn: '1h' }
+            );
+            res.status(200).json({ token: token, userId: admin._id.toString() });
+        })
+        .catch(err => {
+            if (!err.statusCode) {
+                err.statusCode = 500;
+            }
+            next(err);
+        });
+}

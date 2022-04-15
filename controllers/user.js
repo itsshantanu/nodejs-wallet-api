@@ -2,7 +2,6 @@ const User = require('../models/user');
 const Transaction = require('../models/transaction');
 
 const { validationResult } = require('express-validator');
-const transaction = require('../models/transaction');
 
 
 exports.sendMoney = (req, res, next) => {
