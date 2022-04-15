@@ -90,12 +90,10 @@ exports.adminLogin = (req, res, next) => {
                 error.statusCode = 401;
                 throw error;
             }
-            // return fetchedPassword = admin.password;
             return admin
         })
         .then(admin => {
             if (admin.password !== password) {
-                // console.log(admin.admi)
                 const error = new Error('Wrong Password');
                 error.statusCode = 401;
                 throw error;
