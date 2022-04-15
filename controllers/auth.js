@@ -1,11 +1,17 @@
 const { validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
+const nodemailer = require('nodemailer');
+const sendgridTransport = require('nodemailer-sendgrid-transport');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
 const Admin = require('../models/admin');
-const admin = require('../models/admin');
 
+const transporter = nodemailer.createTransport(sendgridTransport({
+    auth: {
+      api_key: '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'
+    }
+  }));
 
 exports.signup = (req, res, next) => {
     const errors = validationResult(req);
@@ -32,6 +38,12 @@ exports.signup = (req, res, next) => {
         })
         .then(result => {
             res.status(201).json({ message: 'User created!', userId: result._id });
+            return transporter.sendMail({
+                to: email,
+                from: 'node-test@discard.email',
+                subject: 'Signup succeeded',
+                html: '<h3>You have successfuly signed up!, Rs.100 added to your account as signup bonus</h3>'
+              });
         })
         .catch(err => {
             if (!err.statusCode) {
