@@ -23,7 +23,7 @@ app.use('/admin', adminRoutes);
 
 mongoose
     .connect(
-        'mongodb+srv://admin-shantanu2:qwerty1234@cluster0.ifp46.mongodb.net/wallet?retryWrites=true&w=majority'
+        'mongodblink'
     )
     .then(result => {
         app.listen(8080);
